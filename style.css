@@ -1,0 +1,24 @@
+body{
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+font-family:Arial;
+background:#dbeafe;
+}
+
+.weather{
+background:white;
+padding:20px;
+border-radius:10px;
+width:300px;
+text-align:center;
+box-shadow:0 0 10px gray;
+}
+
+input,button{
+width:100%;
+padding:10px;
+margin-top:10px;
+box-sizing:border-box;
+}
