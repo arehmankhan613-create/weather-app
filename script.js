@@ -22,11 +22,12 @@ async function getWeather() {
 
         if (data.cod != 200) {
     document.getElementById("result").innerHTML =
-        "<h3>❌ City Not Found</h3>";
+        `<h3>Error ${data.cod}</h3><p>${data.message}</p>`;
     return;
 }
 
-        document.getElementById("result").innerHTML = `
+
+     document.getElementById("result").innerHTML = `
             <h2>${data.name}, ${data.sys.country}</h2>
 
             <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png">
