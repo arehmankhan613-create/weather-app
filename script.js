@@ -23,7 +23,32 @@ const forecastData = await forecastResponse.json();) {
         document.getElementById("loading").innerHTML = "";
 
         if (response.ok) {
-            document.getElementById("result").innerHTML = `
+            document.getElementById("result").innerHTML = `const forecastUrl =
+`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
+
+const forecastResponse = await fetch(forecastUrl);
+const forecastData = await forecastResponse.json();
+
+let forecastHTML = "<h3>📅 5-Day Forecast</h3>";
+
+for (let i = 0; i < forecastData.list.length; i += 8) {
+
+    let day = forecastData.list[i];
+
+    forecastHTML += `
+        <div class="forecast-card">
+            <h4>${new Date(day.dt * 1000).toLocaleDateString()}</h4>
+
+            <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png">
+
+            <p><b>${day.main.temp}°C</b></p>
+
+            <p>${day.weather[0].main}</p>
+        </div>
+    `;
+}
+
+document.getElementById("forecast").innerHTML = forecastHTML;
                 <h2>${data.name}, ${data.sys.country}</h2>
                 <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png">
                 <h1>${data.main.temp}°C</h1>
