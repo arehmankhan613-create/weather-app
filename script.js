@@ -35,7 +35,11 @@ async function getWeather() {
 
     } catch (error) {
         document.getElementById("loading").innerHTML = "";
-        document.getElementById("result").innerHTML =
+        document.getElementById("result").innerHTML =<p>👁️ Visibility : ${(data.visibility / 1000).toFixed(1)} km</p>
+
+<p>🌅 Sunrise : ${new Date(data.sys.sunrise * 1000).toLocaleTimeString()}</p>
+
+<p>🌇 Sunset : ${new Date(data.sys.sunset * 1000).toLocaleTimeString()}</p>
             "<h3>Network Error</h3>";
         console.error(error);
     }
