@@ -21,10 +21,10 @@ async function getWeather() {
         document.getElementById("loading").innerHTML = "";
 
         if (data.cod != 200) {
-            document.getElementById("result").innerHTML =
-                "<h3>❌ City Not Found</h3>";
-            return;
-        }
+    document.getElementById("result").innerHTML =
+        "<h3>❌ City Not Found</h3>";
+    return;
+}
 
         document.getElementById("result").innerHTML = `
             <h2>${data.name}, ${data.sys.country}</h2>
