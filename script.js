@@ -1,94 +1,99 @@
 const apiKey = "3d12bfd7c67376c39b298450c321d916";
-alert("JavaScript Loaded");
 
-async function getWeather() {
+const cityInput = document.getElementById("city");
+const result = document.getElementById("result");
+const forecast = document.getElementById("forecast");
+const loading = document.getElementById("loading");
 
-    const city = document.getElementById("city").value.trim();
-
-    if (!city) {
-        alert("Please enter a city");
-        return;
-    }
-
-    document.getElementById("loading").innerHTML = "Loading...";
-
-    try {
-
-        // Current Weather
-        const response = await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
-        );
-
-        const data = await response.json();
-
-        document.getElementById("loading").innerHTML = "";
-
-        if (!response.ok) {
-            document.getElementById("result").innerHTML =
-                `<h3>${data.message}</h3>`;
-            document.getElementById("forecast").innerHTML = "";
-            return;
-        }
-
-        document.getElementById("result").innerHTML = `
-            <h2>${data.name}, ${data.sys.country}</h2>
-
-            <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png">
-
-            <h1>${Math.round(data.main.temp)}°C</h1>
-
-            <p><b>${data.weather[0].description}</b></p>
-
-            <p>🤗 Feels Like: ${Math.round(data.main.feels_like)}°C</p>
-
-            <p>💧 Humidity: ${data.main.humidity}%</p>
-
-            <p>💨 Wind: ${data.wind.speed} m/s</p>
-
-            <p>🌍 Pressure: ${data.main.pressure} hPa</p>
-
-            <p>👁 Visibility: ${(data.visibility / 1000).toFixed(1)} km</p>
-
-            <p>🌅 Sunrise: ${new Date(data.sys.sunrise * 1000).toLocaleTimeString()}</p>
-
-            <p>🌇 Sunset: ${new Date(data.sys.sunset * 1000).toLocaleTimeString()}</p>
-        `;
-
-        // Forecast
+async function getWeather(        // 5-Day Forecast
         const forecastResponse = await fetch(
             `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`
         );
 
         const forecastData = await forecastResponse.json();
 
-        let html = "";
+        let forecastHTML = "<h2>📅 5-Day Forecast</h2>";
 
         for (let i = 0; i < forecastData.list.length; i += 8) {
 
             const day = forecastData.list[i];
 
-            html += `
+            forecastHTML += `
                 <div class="forecast-card">
-                    <h4>${new Date(day.dt * 1000).toLocaleDateString()}</h4>
+
+                    <h3>${new Date(day.dt * 1000).toLocaleDateString()}</h3>
 
                     <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png">
 
-                    <p>${Math.round(day.main.temp)}°C</p>
+                    <h4>${Math.round(day.main.temp)}°C</h4>
 
                     <p>${day.weather[0].main}</p>
+
                 </div>
             `;
         }
 
-        document.getElementById("forecast").innerHTML = html;
+        forecast.innerHTML = forecastHTML;
+
+        loading.innerHTML = "";
 
     } catch (error) {
 
-        document.getElementById("loading").innerHTML = "";
-        document.getElementById("result").innerHTML =
-            "<h3>Network Error</h3>";
+        loading.innerHTML = "";
+        result.innerHTML = "<h2>❌ Network Error</h2>";
+        forecast.innerHTML = "";
 
         console.error(error);
+
     }
 
-}
+}) {
+
+    const city = cityInput.value.trim();
+
+    if (city === "") {
+        alert("Please enter a city");
+        return;
+    }
+
+    loading.innerHTML = "⏳ Loading...";
+
+    try {
+
+        // Current Weather
+        const weatherResponse = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
+        );
+
+        const weatherData = await weatherResponse.json();
+
+        if (!weatherResponse.ok) {
+            loading.innerHTML = "";
+            result.innerHTML = `<h2>❌ ${weatherData.message}</h2>`;
+            forecast.innerHTML = "";
+            return;
+        }
+
+        result.innerHTML = `
+            <h2>${weatherData.name}, ${weatherData.sys.country}</h2>
+
+            <img src="https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png">
+
+            <h1>${Math.round(weatherData.main.temp)}°C</h1>
+
+            <h3>${weatherData.weather[0].description}</h3>
+
+            <p>🤗 Feels Like : ${Math.round(weatherData.main.feels_like)}°C</p>
+
+            <p>💧 Humidity : ${weatherData.main.humidity}%</p>
+
+            <p>💨 Wind : ${weatherData.wind.speed} m/s</p>
+
+            <p>🌍 Pressure : ${weatherData.main.pressure} hPa</p>
+
+            <p>👁 Visibility : ${(weatherData.visibility / 1000).toFixed(1)} km</p>
+
+            <p>🌅 Sunrise : ${new Date(weatherData.sys.sunrise * 1000).toLocaleTimeString()}</p>
+
+            <p>🌇 Sunset : ${new Date(weatherData.sys.sunset * 1000).toLocaleTimeString()}</p>
+        `;
