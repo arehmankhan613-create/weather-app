@@ -97,3 +97,35 @@ async function getWeather(        // 5-Day Forecast
 
             <p>🌇 Sunset : ${new Date(weatherData.sys.sunset * 1000).toLocaleTimeString()}</p>
         `;
+function getLocation() {
+
+    if (navigator.geolocation) {
+
+        navigator.geolocation.getCurrentPosition(async function(position) {
+
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            const response = await fetch(
+                `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
+            );
+
+            const data = await response.json();
+
+            document.getElementById("city").value = data.name;
+
+            getWeather();
+
+        }, function() {
+
+            alert("Location permission denied.");
+
+        });
+
+    } else {
+
+        alert("Geolocation is not supported.");
+
+    }
+
+}
