@@ -1,21 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Weather App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Weather App</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="weather">
+<div class="container">
 
-    <h2>🌤 Weather App</h2>
+    <h1>🌤 Weather App Pro</h1>
 
-    <input type="text" id="city" placeholder="Enter City">
+    <div class="search-box">
 
-    <button onclick="getWeather()">Search</button>
+        <input type="text" id="city" placeholder="Enter City">
 
-    <button id="themeBtn">🌙</button>
+        <button onclick="getWeather()">Search</button>
+
+        <button id="themeBtn">🌙</button>
+
+    </div>
 
     <div id="loading"></div>
 
@@ -28,4 +35,5 @@
 <script src="script.js"></script>
 
 </body>
+
 </html>
