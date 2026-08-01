@@ -52,6 +52,3 @@ async function getWeather() {
     }
 
 }
-const data = await response.json();
-console.log(data);
-alert(JSON.stringify(data));
